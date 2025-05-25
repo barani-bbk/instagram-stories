@@ -11,10 +11,32 @@ interface Props {
 
 const StoryViewer = ({ stories, currentIndex, onClose, onNavigate }: Props) => {
   const [isLoading, setIsLoading] = useState(true);
+  const [fadeClass, setFadeClass] = useState("fade-out");
+  const [hasError, setHasError] = useState(false);
   const story = stories[currentIndex];
 
   const startY = useRef<number | null>(null);
   const threshold = 50;
+
+  useEffect(() => {
+    setFadeClass("fade-out");
+    setIsLoading(true);
+    setHasError(false);
+
+    const img = new Image();
+    img.src = story.url;
+
+    img.onload = () => {
+      setIsLoading(false);
+      setFadeClass("fade-in");
+    };
+
+    img.onerror = () => {
+      console.error("Image failed to load:", story.url);
+      setIsLoading(false);
+      setHasError(true);
+    };
+  }, [story.url]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -25,14 +47,12 @@ const StoryViewer = ({ stories, currentIndex, onClose, onNavigate }: Props) => {
         onClose();
       }
     }, 5000);
-
     return () => clearTimeout(timer);
   }, [currentIndex]);
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const x = e.nativeEvent.offsetX;
     const width = e.currentTarget.offsetWidth;
-
     if (x < width / 2) {
       if (currentIndex > 0) onNavigate(currentIndex - 1);
     } else {
@@ -68,14 +88,34 @@ const StoryViewer = ({ stories, currentIndex, onClose, onNavigate }: Props) => {
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      {isLoading && <Spinner />} (
-      <img
-        src={story.url}
-        alt={story.label}
-        className="story-image"
-        onLoad={() => setIsLoading(false)}
-      />
-      )
+      {isLoading && <Spinner />}
+
+      <div className="progress-bar">
+        <div key={story.id} className="progress-fill" />
+      </div>
+
+      {!isLoading && !hasError && (
+        <img
+          key={story.id}
+          src={story.url}
+          alt={story.label}
+          className={`story-image ${fadeClass}`}
+          onLoad={() => {
+            setFadeClass("fade-in");
+            setIsLoading(false);
+          }}
+          onError={() => {
+            console.error("Image failed to load:", story.url);
+            setIsLoading(false);
+            setHasError(true);
+          }}
+        />
+      )}
+
+      {!isLoading && hasError && (
+        <div className="error-message">Cannot load story. Try again.</div>
+      )}
+
       <button type="button" className="close-btn" onClick={handleClose}>
         ✕
       </button>
