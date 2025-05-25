@@ -7,7 +7,7 @@ interface Props {
 const ThumbnailItem = ({ story }: Props) => {
   return (
     <div className="thumbnail-item">
-      <img className="thumbnail" src={story.url} />
+      <img className="thumbnail" alt={story.label} src={story.thumbnail} />
     </div>
   );
 };
