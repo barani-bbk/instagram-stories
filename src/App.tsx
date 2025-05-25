@@ -1,27 +1,28 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
+import ThumbnailContainer from "./components/ThumbnailContainer";
 import storiesData from "./data/stories.json";
 
-interface Story {
+export interface Story {
   id: number;
   label: string;
   url: string;
 }
 
 function App() {
-  const [stories, setStories] = useState<Story[]>(storiesData);
+  const [stories, setStories] = useState<Story[]>([]);
+
+  useEffect(() => {
+    setStories(storiesData);
+  }, []);
 
   return (
-    <>
-      <ul>
-        {stories.map((story) => (
-          <li key={story.id}>
-            <p>{story.id}</p>
-            <img src={story.url} />
-          </li>
-        ))}
-      </ul>
-    </>
+    <main className="container">
+      <ThumbnailContainer stories={stories} />
+      <div className="content">
+        <p>Instagram Stories</p>
+      </div>
+    </main>
   );
 }
 
