@@ -1,0 +1,27 @@
+[
+  {
+    "id": 1,
+    "label": "Scenery",
+    "url": "https://images.unsplash.com/photo-1508672019048-805c876b67e2?fit=crop&w=400&h=700"
+  },
+  {
+    "id": 2,
+    "label": "Motorcycle",
+    "url": "https://images.unsplash.com/photo-1558981285-6f0c94958bb6?fit=crop&w=400&h=700"
+  },
+  {
+    "id": 3,
+    "label": "Arcade",
+    "url": "https://images.unsplash.com/photo-1533236897111-3e94666b2edf?fit=crop&w=400&h=700"
+  },
+  {
+    "id": 6,
+    "label": "Book",
+    "url": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?fit=crop&w=400&h=700"
+  },
+  {
+    "id": 8,
+    "label": "Building",
+    "url": "https://images.unsplash.com/photo-1517935706615-2717063c2225?fit=crop&w=400&h=700"
+  }
+]
